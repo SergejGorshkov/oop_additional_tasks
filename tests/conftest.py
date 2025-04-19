@@ -1,7 +1,7 @@
 import pytest
 
-from lesson1.src.task import Task
-from lesson1.src.user import User
+from src.task import Task
+from src.user import User
 
 
 @pytest.fixture
@@ -35,4 +35,5 @@ def second_user():
 
 @pytest.fixture
 def task():
+    """Фикстура для новой задачи"""
     return Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025")

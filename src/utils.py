@@ -2,8 +2,8 @@ import json
 import os
 from pprint import pprint
 
-from lesson1.src.user import User
-from lesson1.src.task import Task
+from src.user import User
+from src.task import Task
 
 
 def read_json(path: str) -> dict:
