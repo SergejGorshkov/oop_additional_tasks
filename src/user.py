@@ -23,12 +23,18 @@ class User:
         User.all_tasks_count += len(task_list) if task_list else 0  # Счетчик количества задач будет увеличиваться
         # на длину списка задач, если он существует. Если список пустой, тогда не увеличивается
 
+
+    def __str__(self):
+        return f"{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}"
+
+
     @property
     def task_list(self):
         """Геттер. Возвращает новую строку (тип str), содержащую подстроки из списка задач"""
         task_str = ""
         for task in self.__task_list:  # Перебор списка задач
-            task_str += f"{task.name}, Статус выполнения: {task.status}, Дата создания: {task.created_at}\n"
+            task_str += f"{str(task)}\n" # Представление задачи (объекта класса Task) в строковом формате путем вызова
+            # магического метода def __str__(self) из класса Task
         return task_str
 
     @task_list.setter
@@ -40,16 +46,18 @@ class User:
 
     @property
     def task_in_list(self):
-        """Геттер. Возвращает список задач (тип list)"""
+        """Геттер. Возвращает список задач (тип list). Нужен для чтения(только!) содержимого приватного атрибута __task_list"""
         return self.__task_list
 
 
 if __name__== "__main__":
+    # Создаем 4 новых задачи
     task_1 = Task("Купить огурцы", "Купить огурцы для салата")
     task_2 = Task("Купить помидоры", "Купить помидоры для салата")
     task_3 = Task("Купить лук", "Купить лук для салата")
     task_4 = Task("Купить перец", "Купить перец для салата")
 
+    # Создаем 1 нового пользователя
     user = User("OleJik", "oleg@mail.com", "Oleg", "Ivanov", [task_1, task_2, task_3, task_4])
 
     print(user.username)
@@ -67,4 +75,4 @@ if __name__== "__main__":
     print(user.task_list)
     print(User.all_tasks_count)
 
-
+    print(user)

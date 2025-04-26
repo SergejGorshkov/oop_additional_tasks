@@ -1,5 +1,4 @@
-import datetime
-
+import pytest
 
 def test_user_init(first_user, second_user):
     """Тест инициализации класса User"""
@@ -16,11 +15,8 @@ def test_user_init(first_user, second_user):
 
 def test_user_task_list_property(first_user):
     """"Тест геттера `user_task_list`"""
-    assert first_user.task_list == (f"Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: "
-                                    f"{datetime.date.today().strftime("%d.%m.%Y")}\nКупить помидоры, Статус "
-                                    f"выполнения: Ожидает старта, Дата создания: "
-                                    f"{datetime.date.today().strftime("%d.%m.%Y")}\n")
-    # Здесь дата задана неявно, т.к. при запуске тестов в другой день, значения не совпадут
+    assert first_user.task_list == (f"Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 20.04.2025\n"
+                                    f"Купить помидоры, Статус выполнения: Ожидает старта, Дата создания: 20.04.2025\n")
 
 
 def test_user_task_list_setter(first_user, task):
@@ -28,3 +24,29 @@ def test_user_task_list_setter(first_user, task):
     assert len(first_user.task_in_list) == 2
     first_user.task_list = task  # Задаем новую задачу и общее кол-во задач должно увеличиться на 1
     assert len(first_user.task_in_list) == 3
+
+
+def test_user_str(first_user):
+    """Проверка работы строкового представления объекта класса User с фикстурой first_user"""
+    assert str(first_user) == "Ivanov Oleg, Email: oleg@mail.com, Всего задач в списке: 2"
+
+
+# Тестирование работы класса TaskIterator выполняем здесь, чтобы не переопределялись фикстуры и не увеличивалось
+# количество задач и кол-во пользователей
+def test_task_iterator(task_iterator):
+    """Тест работы итератора из класса TaskIterator с фикстурой task_iterator"""
+    iter(task_iterator)  # Переопределение метода __iter__, чтобы индекс для перебора последовательности объектов
+    # класса Task обнулился
+
+    assert task_iterator.index == 0  # Проверка, что первоначальное значение индекса = 0
+
+    # В task_iterator указана фикстура second_user с тремя задачами
+    assert next(task_iterator).name == "Купить огурцы"  # Проверка, что имя экземпляра класса Task соответствует
+    # названию первой задачи
+    assert next(task_iterator).name == "Купить помидоры"  # Проверка, что имя экземпляра класса Task соответствует
+    # названию второй задачи
+    assert next(task_iterator).name == "Купить лук"  # Проверка, что имя экземпляра класса Task соответствует
+    # названию третьей задачи
+
+    with pytest.raises(StopIteration):  # Проверка корректного завершения работы итератора
+        next(task_iterator)

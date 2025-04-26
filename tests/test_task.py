@@ -31,3 +31,14 @@ def test_task_update(capsys, task):
 
     task.created_at = datetime.date.today().strftime("%d.%m.%Y")  # Задаем текущую дату
     assert task.created_at == datetime.date.today().strftime("%d.%m.%Y")
+
+
+def test_task_str(task):
+    """Тест на строковое представление объектов класса Task (с использованием фикстуры task)"""
+    # Вызов магического метода __str__ из класса Task для отображения информации об экземпляре класса
+    assert str(task) == "Купить огурцы, Статус выполнения: Ожидает старта, Дата создания: 20.04.2025"
+
+
+def test_task_add(task_with_runtime1, task_with_runtime2):
+    """Тест на сложение объектов (времени выполнения задачи) класса Task с использованием фикстур task_with_runtime1(2)"""
+    assert task_with_runtime1 + task_with_runtime2 == 130

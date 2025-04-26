@@ -7,13 +7,23 @@ class Task:
     description: str
     status: str
     created_at: str
+    run_time: int  # Время выполнения задачи в минутах
 
-    def __init__(self, name, description, status="Ожидает старта", created_at = None):
+    def __init__(self, name, description, status="Ожидает старта", created_at = None, run_time=0):
         self.name = name
         self.description = description
         self.status = status
         # Атрибут `created_at` сделали приватным
         self.__created_at = created_at if created_at else datetime.date.today().strftime("%d.%m.%Y")
+        self.run_time = run_time  # Время выполнения задачи
+
+
+    def __str__(self):
+        return f"{self.name}, Статус выполнения: {self.status}, Дата создания: {self.__created_at}"
+
+
+    def __add__(self, other):
+        return self.run_time + other.run_time
 
     @classmethod
     def new_task(cls, name, description, status="Ожидает старта", created_at = None):
@@ -42,7 +52,7 @@ class Task:
 
 
 if __name__== "__main__":
-    task_1 = Task("Купить огурцы", "Купить огурцы для салата")
+    task_1 = Task("Купить огурцы", "Купить огурцы для салата", run_time=60)
 
     print(task_1.name)
     print(task_1.description)
@@ -66,5 +76,7 @@ if __name__== "__main__":
     # Задаем новую дату (для будущего)
     task_2.created_at = "01.12.2025"
     print(task_2.created_at)   # Получаем новое значение атрибута `created_at` (01.12.2025)
+
+    print(task_1 + task_2)
 
 
