@@ -1,5 +1,3 @@
-from code import interact
-
 from src.task import Task
 from src.user import User
 
@@ -14,7 +12,7 @@ class TaskIterator:
 
 
     def __iter__(self):
-        """Для создания итератора с последовательностью объектов класса User"""
+        """Для создания итератора с последовательностью объектов класса Task"""
         self.index = 0  # При каждом создании итератора индекс начинается с нуля (обнуляется)
         return self
 

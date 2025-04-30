@@ -25,6 +25,7 @@ class User:
 
 
     def __str__(self):
+        """Строковое представление экземпляра класса User"""
         return f"{self.last_name} {self.first_name}, Email: {self.email}, Всего задач в списке: {len(self.__task_list)}"
 
 
