@@ -50,3 +50,14 @@ def test_task_iterator(task_iterator):
 
     with pytest.raises(StopIteration):  # Проверка корректного завершения работы итератора
         next(task_iterator)
+
+
+def test_user_task_list_setter_error(first_user):
+    """"Тест сеттера `user.task_list` на сложение объекта класса Task c объектом другого класса"""
+    with pytest.raises(TypeError):
+        first_user.task_list = 1
+
+def test_user_task_list_setter_periodic_task(first_user, task_periodic_1):
+    """"Тест сеттера `user.task_list` на сложение родственных объектов класса Task и PeriodicTask"""
+    first_user.task_list = task_periodic_1
+    assert first_user.task_in_list[-1].name == "Купить огурцы"  # Проверка, что новая задача добавлена в список задач

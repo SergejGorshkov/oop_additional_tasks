@@ -41,9 +41,12 @@ class User:
     @task_list.setter
     def task_list(self, new_task: Task):      # new_task - передаем новую задачу (тип - экземпляр класса Task)
         """Сеттер. Дополняет список задач новой задачей"""
-        self.__task_list.append(new_task)
+        if isinstance(new_task, Task):  # Если полученная новая задача принадлежит классу Task или его наследнику, то она добавляется в список задач
+            self.__task_list.append(new_task)
 
-        User.all_tasks_count += 1  # Увеличиваем значение количества всех задач на 1
+            User.all_tasks_count += 1  # Увеличиваем значение количества всех задач на 1
+        else:
+            raise TypeError("Попытка добавления несовместимого типа данных")
 
     @property
     def task_in_list(self):

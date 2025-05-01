@@ -1,4 +1,4 @@
-# Продолжение работы над задачей из lesson1, lesson2 (уроки 14_1_9, 14_2_8)
+# Продолжение работы над альтернативной задачей по теме "Классы"
 
 import datetime
 
@@ -23,7 +23,9 @@ class Task:
 
 
     def __add__(self, other):
-        return self.run_time + other.run_time
+        if type(other) is Task:
+            return self.run_time + other.run_time
+        raise TypeError
 
     @classmethod
     def new_task(cls, name, description, status="Ожидает старта", created_at = None):
@@ -78,5 +80,9 @@ if __name__== "__main__":
     print(task_2.created_at)   # Получаем новое значение атрибута `created_at` (01.12.2025)
 
     print(task_1 + task_2)
+    print()  # Пустая строка
+
+    # Проверка на сложение объекта класса Task с объектом другого класса
+    print(task_1 + 1)  #  TypeError, т.к. разные классы у объектов
 
 
