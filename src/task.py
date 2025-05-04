@@ -1,21 +1,26 @@
 # Продолжение работы над альтернативной задачей по теме "Классы"
 
 import datetime
+from src.base_task import BaseTask
+from src.print_mixin import PrintMixin
 
-class Task:
+
+class Task(BaseTask, PrintMixin):
     name: str
     description: str
     status: str
     created_at: str
     run_time: int  # Время выполнения задачи в минутах
 
-    def __init__(self, name, description, status="Ожидает старта", created_at = None, run_time=0):
+    def __init__(self, name, description, status="Ожидает старта", created_at=None, run_time=0):
         self.name = name
         self.description = description
         self.status = status
         # Атрибут `created_at` сделали приватным
         self.__created_at = created_at if created_at else datetime.date.today().strftime("%d.%m.%Y")
         self.run_time = run_time  # Время выполнения задачи
+        super().__init__()  # Вызов __init__ у миксина PrintMixin
+
 
 
     def __str__(self):
@@ -54,7 +59,8 @@ class Task:
 
 
 if __name__== "__main__":
-    task_1 = Task("Купить огурцы", "Купить огурцы для салата", run_time=60)
+    task_1 = Task("Купить огурцы", "Купить огурцы для салата", run_time=60)  # При этом вызовется метод
+    # __repr__ из класса PrintMixin
 
     print(task_1.name)
     print(task_1.description)
@@ -63,7 +69,8 @@ if __name__== "__main__":
     print()  # Пустая строка
 
     # Создание новой задачи. Обращаемся к классу `Task` и вызываем метод `new_task` этого класса. Вывод новых атрибутов
-    task_2 = Task.new_task("Купить билеты", "Купить билеты на самолет")
+    task_2 = Task.new_task("Купить билеты", "Купить билеты на самолет")  # При этом вызовется метод
+    # __repr__ из класса PrintMixin
 
     print(task_2.name)
     print(task_2.description)
@@ -81,8 +88,8 @@ if __name__== "__main__":
 
     print(task_1 + task_2)
     print()  # Пустая строка
-
-    # Проверка на сложение объекта класса Task с объектом другого класса
-    print(task_1 + 1)  #  TypeError, т.к. разные классы у объектов
+    #
+    # # Проверка на сложение объекта класса Task с объектом другого класса
+    # print(task_1 + 1)  #  TypeError, т.к. разные классы у объектов
 
 

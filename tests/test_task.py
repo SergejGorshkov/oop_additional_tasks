@@ -26,8 +26,8 @@ def test_task_update(capsys, task):
     Перехватываем поток печати в консоль при помощи capsys.
     """
     task.created_at = "01.04.2025"  # Задаем заведомо ошибочную дату (из прошлого)
-    message = capsys.readouterr()  # Перехват сообщения в консоль
-    assert message.out.strip() == "Нельзя изменить дату создания на дату из прошлого"
+    message = capsys.readouterr()  # Перехват сообщения в консоль и проверка последней строки в сообщении
+    assert message.out.strip().split("\n")[-1] == "Нельзя изменить дату создания на дату из прошлого"
 
     task.created_at = datetime.date.today().strftime("%d.%m.%Y")  # Задаем текущую дату
     assert task.created_at == datetime.date.today().strftime("%d.%m.%Y")

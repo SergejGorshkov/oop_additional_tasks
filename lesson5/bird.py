@@ -14,16 +14,33 @@
 
 
 class Bird:
-    pass
+    """Класс, представляющий птицу"""
+    # def __init__(self):
+    def fly(self):
+        """ Метод, который выводит сообщение "Flying" """
+        print("Flying")
+
+class Penguin(Bird):
+    """Подкласс, представляющий пингвина"""
+    def fly(self):
+        """ Метод, который выводит сообщение "I am a penguin and cannot fly" """
+        print("I am a penguin and cannot fly")
+
+class Eagle(Bird):
+    """Подкласс, представляющий орла"""
+    def hunt(self):
+        """ Метод, который выводит сообщение "Hunting" """
+        print("Hunting")
 
 
-# код для проверки 
-bird = Bird()
-bird.fly()  # Flying
+if __name__ == "__main__":
+    # код для проверки
+    bird = Bird()
+    bird.fly()  # Flying
 
-penguin = Penguin()
-penguin.fly()  # I am a penguin and cannot fly
+    penguin = Penguin()
+    penguin.fly()  # I am a penguin and cannot fly
 
-eagle = Eagle()
-eagle.fly()  # Flying
-eagle.hunt()  # Hunting
+    eagle = Eagle()
+    eagle.fly()  # Flying (класс Eagle по умолчанию имеет метод fly от родительского класса Bird)
+    eagle.hunt()  # Hunting
