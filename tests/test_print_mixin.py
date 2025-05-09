@@ -1,5 +1,3 @@
-from pyexpat.errors import messages
-
 from src.task import Task
 from src.periodic_task import PeriodicTask
 from src.deadline_task import DeadlineTask

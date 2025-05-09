@@ -15,8 +15,8 @@ def first_user():
         first_name="Oleg",
         last_name="Ivanov",
         task_list=[
-            Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025"),
-            Task("Купить помидоры", "Купить помидоры для салата", created_at="20.04.2025")
+            Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025", run_time=60),
+            Task("Купить помидоры", "Купить помидоры для салата", created_at="20.04.2025", run_time=30)
         ]
     )
 
@@ -39,7 +39,7 @@ def second_user():
 @pytest.fixture
 def task():
     """Фикстура для новой задачи"""
-    return Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025")
+    return Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025", run_time=60)
 
 
 @pytest.fixture
@@ -82,3 +82,13 @@ def task_deadline_1():
 def task_deadline_2():
     """Фикстура со сроком выполнения задачи для класса DeadlineTask"""
     return DeadlineTask("Купить оливки", "Купить оливки для салата", "20.05.2025", created_at="20.04.2025", run_time=60)
+
+
+@pytest.fixture
+def user_without_tasks():
+    return User(
+        username="Some",
+        email="some.com",
+        first_name="Some",
+        last_name="User",
+    )

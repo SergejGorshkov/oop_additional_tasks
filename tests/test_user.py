@@ -1,4 +1,8 @@
 import pytest
+from pyexpat.errors import messages
+
+from src.task import Task
+
 
 def test_user_init(first_user, second_user):
     """Тест инициализации класса User"""
@@ -61,3 +65,24 @@ def test_user_task_list_setter_periodic_task(first_user, task_periodic_1):
     """"Тест сеттера `user.task_list` на сложение родственных объектов класса Task и PeriodicTask"""
     first_user.task_list = task_periodic_1
     assert first_user.task_in_list[-1].name == "Купить огурцы"  # Проверка, что новая задача добавлена в список задач
+
+def test_middle_runtime(first_user, user_without_tasks):
+    """Тест работы метода для определения среднего времени выполнения всех задач объекта класса User"""
+    assert first_user.middle_task_runtime() == 45
+    assert user_without_tasks.middle_task_runtime() == 0
+
+def test_custom_exception(capsys, first_user):
+    """Тест на возбуждение ошибки """
+    assert len(first_user.task_in_list) == 2
+
+    task_add = Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025")
+    first_user.task_list = task_add
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Нельзя задать задачу с нулевым временем выполнения"
+    assert message.out.strip().split("\n")[-1] == "Обработка добавления задачи завершена"
+
+    task_add = Task("Купить огурцы", "Купить огурцы для салата", created_at="20.04.2025", run_time=60)
+    first_user.task_list = task_add
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Задача добавлена успешно"
+    assert message.out.strip().split("\n")[-1] == "Обработка добавления задачи завершена"

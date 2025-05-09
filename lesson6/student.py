@@ -11,14 +11,24 @@
 
 
 class Student:
+    name: str
+    course: int
+    rates: list[int] | list
+    def __init__(self, name, course, rates):
+        self.name = name
+        self.course = course
+        self.rates = rates if rates else []
 
-    def __init__(...):
-        ...
+    def avg_rate(self):
+        result = round(sum(self.rates) / len(self.rates), 2) if self.rates else 0.0
+        print(result)
 
 
-# код для проверки
-student = Student('Ivan', 'Python', [5, 4, 5, 5])
-student.avg_rate() # 4.75
+if __name__ == "__main__":
 
-student = Student('Ivan', 'Python', [])
-student.avg_rate() # 0.0
+    # код для проверки
+    student = Student('Ivan', 'Python', [5, 4, 5, 5])
+    student.avg_rate() # 4.75
+
+    student = Student('Ivan', 'Python', [])
+    student.avg_rate() # 0.0

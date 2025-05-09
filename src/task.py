@@ -18,8 +18,11 @@ class Task(BaseTask, PrintMixin):
         self.status = status
         # Атрибут `created_at` сделали приватным
         self.__created_at = created_at if created_at else datetime.date.today().strftime("%d.%m.%Y")
-        self.run_time = run_time  # Время выполнения задачи
-        super().__init__()  # Вызов __init__ у миксина PrintMixin
+        if run_time >= 0:
+            self.run_time = run_time  # Время выполнения задачи
+        else:
+            raise ValueError("Задачу с отрицательным временем выполнения создать нельзя")
+        super().__init__()  # Вызов __init__ и __repr__ у миксина PrintMixin
 
 
 
@@ -88,6 +91,9 @@ if __name__== "__main__":
 
     print(task_1 + task_2)
     print()  # Пустая строка
+
+    # task = Task("Купить огурцы", "Купить огурцы для салата", run_time=-60)  # При этом вызовется метод
+
     #
     # # Проверка на сложение объекта класса Task с объектом другого класса
     # print(task_1 + 1)  #  TypeError, т.к. разные классы у объектов

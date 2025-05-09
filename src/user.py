@@ -1,5 +1,5 @@
 # Продолжение работы над задачей из lesson1, lesson2 (уроки 14_1_9, 14_2_8)
-
+from src.exceptions import ZeroRuntimeTask
 from src.task import Task
 
 
@@ -42,9 +42,17 @@ class User:
     def task_list(self, new_task: Task):      # new_task - передаем новую задачу (тип - экземпляр класса Task)
         """Сеттер. Дополняет список задач новой задачей"""
         if isinstance(new_task, Task):  # Если полученная новая задача принадлежит классу Task или его наследнику, то она добавляется в список задач
-            self.__task_list.append(new_task)
-
-            User.all_tasks_count += 1  # Увеличиваем значение количества всех задач на 1
+            try:
+                if new_task.run_time == 0:
+                    raise ZeroRuntimeTask("Нельзя задать задачу с нулевым временем выполнения")
+            except ZeroRuntimeTask as error_info:
+                print(error_info)
+            else:
+                self.__task_list.append(new_task)
+                User.all_tasks_count += 1  # Увеличиваем значение количества всех задач на 1
+                print("Задача добавлена успешно")
+            finally:
+                print("Обработка добавления задачи завершена")
         else:
             raise TypeError("Попытка добавления несовместимого типа данных")
 
@@ -53,13 +61,19 @@ class User:
         """Геттер. Возвращает список задач (тип list). Нужен для чтения(только!) содержимого приватного атрибута __task_list"""
         return self.__task_list
 
+    def middle_task_runtime(self):
+        """Метод для определения среднего времени выполнения всех задач объекта класса User"""
+        try:
+            return sum([task.run_time for task in self.__task_list]) / len(self.__task_list)
+        except ZeroDivisionError:
+            return 0
 
 if __name__== "__main__":
     # Создаем 4 новых задачи
-    task_1 = Task("Купить огурцы", "Купить огурцы для салата")
-    task_2 = Task("Купить помидоры", "Купить помидоры для салата")
-    task_3 = Task("Купить лук", "Купить лук для салата")
-    task_4 = Task("Купить перец", "Купить перец для салата")
+    task_1 = Task("Купить огурцы", "Купить огурцы для салата", run_time=20)
+    task_2 = Task("Купить помидоры", "Купить помидоры для салата", run_time=30)
+    task_3 = Task("Купить лук", "Купить лук для салата", run_time=20)
+    task_4 = Task("Купить перец", "Купить перец для салата", run_time=50)
 
     # Создаем 1 нового пользователя
     user = User("OleJik", "oleg@mail.com", "Oleg", "Ivanov", [task_1, task_2, task_3, task_4])
@@ -80,3 +94,6 @@ if __name__== "__main__":
     print(User.all_tasks_count)
 
     print(user)
+    print(user.middle_task_runtime())
+    user1 = User("OleJik", "oleg@mail.com", "Oleg", "Ivanov", [])
+    print(user1.middle_task_runtime())
